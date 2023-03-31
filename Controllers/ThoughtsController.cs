@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using Thoujour.Models;
 
 namespace Thoujour.Controllers
@@ -152,6 +153,12 @@ namespace Thoujour.Controllers
         private bool ThoughtExists(int id)
         {
             return (_context.Thoughts?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

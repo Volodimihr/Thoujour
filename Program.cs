@@ -17,7 +17,7 @@ namespace Thoujour
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Thoughts/Error");
             }
             app.UseStaticFiles();
 
@@ -27,7 +27,7 @@ namespace Thoujour
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Thoughts}/{action=Index}/{id?}");
 
             app.Run();
         }
