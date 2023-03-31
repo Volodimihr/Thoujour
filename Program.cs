@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Thoujour.Areas.Identity.Data;
+
 namespace Thoujour
 {
     public class Program
@@ -7,6 +8,8 @@ namespace Thoujour
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
             builder.Services.AddDbContext<ThoughtsDb>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ThoughtsDb") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
 
@@ -16,8 +19,15 @@ namespace Thoujour
             builder.Services.AddDefaultIdentity<Person>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Persons>();
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAuthentication().AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                builder.Configuration.GetSection("Authentication:Google");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
 
             var app = builder.Build();
 
@@ -26,6 +36,9 @@ namespace Thoujour
             {
                 app.UseExceptionHandler("/Thoughts/Error");
             }
+
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
