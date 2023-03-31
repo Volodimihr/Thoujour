@@ -1,3 +1,4 @@
+﻿using Microsoft.EntityFrameworkCore;
 namespace Thoujour
 {
     public class Program
@@ -5,6 +6,8 @@ namespace Thoujour
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ThoughtsDb>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ThoughtsDb") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
