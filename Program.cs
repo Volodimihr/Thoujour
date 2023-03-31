@@ -34,6 +34,8 @@ namespace Thoujour
 
             app.UseAuthorization();
 
+            app.MapRazorPages();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Thoughts}/{action=Index}/{id?}");
