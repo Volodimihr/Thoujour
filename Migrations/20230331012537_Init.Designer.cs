@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Thoujour.Migrations
 {
     [DbContext(typeof(ThoughtsDb))]
-    [Migration("20230331002745_Init")]
+    [Migration("20230331012537_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
