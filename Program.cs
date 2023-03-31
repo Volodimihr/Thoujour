@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Thoujour.Areas.Identity.Data;
 namespace Thoujour
 {
@@ -11,7 +10,10 @@ namespace Thoujour
             builder.Services.AddDbContext<ThoughtsDb>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ThoughtsDb") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
 
-                        builder.Services.AddDefaultIdentity<Person>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDbContext<Persons>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PersonsConnection") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
+
+            builder.Services.AddDefaultIdentity<Person>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Persons>();
 
             // Add services to the container.
@@ -27,7 +29,8 @@ namespace Thoujour
             app.UseStaticFiles();
 
             app.UseRouting();
-                        app.UseAuthentication();;
+
+            app.UseAuthentication(); ;
 
             app.UseAuthorization();
 
