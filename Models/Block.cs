@@ -13,6 +13,6 @@ namespace Thoujour.Models
         public string? B64Img { get; set; }
         public string? Text { get; set; }
 
-        public Thought Thought { get; set; }
+        public Thought? Thought { get; set; }
     }
 }
