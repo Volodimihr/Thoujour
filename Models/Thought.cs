@@ -9,6 +9,6 @@ namespace Thoujour.Models
         [Required]
         public string Title { get; set; }
 
-        public List<Block> Blocks { get; set; }
+        public List<Block>? Blocks { get; set; }
     }
 }

@@ -22,17 +22,11 @@ namespace Thoujour
                 app.UseExceptionHandler("/Thoughts/Error");
             }
 
-            app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication(); ;
-
-            app.UseAuthorization();
-
-            app.MapRazorPages();
+            app.UseAuthentication();
 
             app.MapControllerRoute(
                 name: "default",
