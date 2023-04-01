@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Thoujour.Areas.Identity.Data;
 
 namespace Thoujour
 {
@@ -13,21 +12,7 @@ namespace Thoujour
             builder.Services.AddDbContext<ThoughtsDb>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ThoughtsDb") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
 
-            builder.Services.AddDbContext<Persons>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PersonsConnection") ?? throw new InvalidOperationException("Connection string 'ThoughtsDb' not found.")));
-
-            builder.Services.AddDefaultIdentity<Person>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<Persons>();
-
             builder.Services.AddControllersWithViews();
-
-            builder.Services.AddAuthentication().AddGoogle(options =>
-            {
-                IConfigurationSection googleAuthNSection =
-                builder.Configuration.GetSection("Authentication:Google");
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
-            });
 
             var app = builder.Build();
 
