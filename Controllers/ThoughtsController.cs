@@ -51,7 +51,7 @@ namespace Thoujour.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Thought thought)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description")] Thought thought)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace Thoujour.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Thought thought)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Thought thought)
         {
             if (id != thought.Id)
             {
