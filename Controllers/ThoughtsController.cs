@@ -17,9 +17,20 @@ namespace Thoujour.Controllers
         // GET: Thoughts
         public async Task<IActionResult> Index()
         {
-            return _context.Thoughts != null ?
-                        View(await _context.Thoughts.ToListAsync()) :
-                        Problem("Entity set 'ThoughtsDb.Thought'  is null.");
+            if (_context.Thoughts != null)
+            {
+                List<Thought> thoughts = await _context.Thoughts.ToListAsync();
+                List<Block> blocks = await _context.Blocks.ToListAsync() ?? new List<Block>();
+
+                foreach (Thought thought in thoughts)
+                {
+                    thought.Blocks = blocks.FindAll(b => b.ThoughtId == thought.Id);
+                }
+
+                return View(thoughts);
+            }
+            else
+                return Problem("Entity set 'ThoughtsDb.Thought'  is null.");
         }
 
         // GET: Thoughts/Details/5
