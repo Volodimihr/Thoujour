@@ -15,17 +15,21 @@ namespace Thoujour.Controllers
         }
 
         // GET: Thoughts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             if (_context.Thoughts != null)
             {
                 List<Thought> thoughts = await _context.Thoughts.ToListAsync();
-                List<Block> blocks = await _context.Blocks.ToListAsync() ?? new List<Block>();
 
-                foreach (Thought thought in thoughts)
+                //thoughts.Clear();
+
+                if (thoughts.Count > 0)
                 {
-                    thought.Blocks = blocks.FindAll(b => b.ThoughtId == thought.Id);
+                    id = id ?? thoughts.FirstOrDefault()?.Id;
+                    (thoughts.Find(t => t.Id == id) ?? new Thought()).Blocks = await _context.Blocks.Where(b => b.ThoughtId == id).ToListAsync();
                 }
+
+                ViewData["Id"] = id;
 
                 return View(thoughts);
             }
