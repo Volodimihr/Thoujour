@@ -1,41 +1,28 @@
-﻿@model IEnumerable<Thoujour.Models.Block>
+﻿@model Thoujour.Models.Thought
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.B64Img)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Text)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.B64Img)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="list-group">
+    @if (Model.Blocks != null)
+        @foreach (Block block in Model.Blocks)
+        {
+            <div class="list-group-item rounded-2">
+                <h3>@block.Title</h3>
+                @if (block.B64Img != null)
+                {
+                    <img src="@block.B64Img" alt="picture" />
+                }
+                <p>@block.Text</p>
+            </div>
+        }
+</div>
+<div class="list-group p-2 mt-2">
+    <h6>Comments</h6>
+    @if (Model.Comments != null)
+        @foreach (Comment comment in Model.Comments)
+        {
+            <div class="list-group-item rounded-3">
+                <h3>@(comment.UserName ?? "")</h3>
+                <p>@comment.Text</p>
+                <p>@comment.Date.ToLongDateString()</p>
+            </div>
+        }
+</div>
