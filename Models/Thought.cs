@@ -11,5 +11,6 @@ namespace Thoujour.Models
         public string? Description { get; set; }
 
         public List<Block>? Blocks { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }
