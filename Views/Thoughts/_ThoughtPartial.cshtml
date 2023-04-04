@@ -14,15 +14,16 @@
             </div>
         }
 </div>
+</hr>
 <div class="list-group p-2 mt-2">
-    <h6>Comments</h6>
+    <h5 class="p-2">Comments</h5>
     @if (Model.Comments != null)
         @foreach (Comment comment in Model.Comments)
         {
-            <div class="list-group-item rounded-3">
-                <h3>@(comment.UserName ?? "")</h3>
+            <div class="list-group-item p-2 rounded-4">
+                <h6>@(comment.UserName ?? "")</h6>
                 <p>@comment.Text</p>
-                <p>@comment.Date.ToLongDateString()</p>
+                <small>@comment.Date.ToLongDateString()</small>
             </div>
         }
 </div>
