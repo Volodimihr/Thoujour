@@ -4,7 +4,7 @@
     @if (Model.Blocks != null)
         @foreach (Block block in Model.Blocks)
         {
-            <div class="list-group-item rounded-2">
+            <div class="list-group-item rounded-2 mb-2">
                 <h3>@block.Title</h3>
                 @if (block.B64Img != null)
                 {
@@ -13,14 +13,14 @@
                 <p>@block.Text</p>
             </div>
         }
+    <a class="ms-auto btn btn-blue" asp-controller="Thoughts" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </div>
-</hr>
 <div class="list-group p-2 mt-2">
     <h5 class="p-2">Comments</h5>
     @if (Model.Comments != null)
         @foreach (Comment comment in Model.Comments)
         {
-            <div class="list-group-item p-2 rounded-4">
+            <div class="list-group-item mb-2 p-2 rounded-4">
                 <h6>@(comment.UserName ?? "")</h6>
                 <p>@comment.Text</p>
                 <small>@comment.Date.ToLongDateString()</small>

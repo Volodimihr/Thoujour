@@ -124,6 +124,53 @@ namespace Thoujour.Controllers
                         throw;
                     }
                 }
+                return RedirectToAction(nameof(BlocksEdit), new { id = id });
+            }
+            return View(thought);
+        }
+
+        public async Task<IActionResult> BlocksEdit(int? id)
+        {
+            if (id == null || _context.Thoughts == null)
+            {
+                return NotFound();
+            }
+
+            var thought = await _context.Thoughts.FindAsync(id);
+            if (thought == null)
+            {
+                return NotFound();
+            }
+            return View(thought);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BlocksEdit(int id, [Bind("Id,Blocks")] Thought thought)
+        {
+            if (id != thought.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(thought);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ThoughtExists(thought.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(thought);
