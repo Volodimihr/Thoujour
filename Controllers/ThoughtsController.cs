@@ -124,11 +124,12 @@ namespace Thoujour.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(BlocksEdit), new { id = id });
+                return RedirectToAction(nameof(BlocksEdit), thought);
             }
             return View(thought);
         }
 
+        [HttpGet]
         public async Task<IActionResult> BlocksEdit(int? id)
         {
             if (id == null || _context.Thoughts == null)
@@ -141,6 +142,9 @@ namespace Thoujour.Controllers
             {
                 return NotFound();
             }
+
+            thought.Blocks = await _context.Blocks.Where(b => b.ThoughtId == id).ToListAsync();
+
             return View(thought);
         }
 
