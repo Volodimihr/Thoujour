@@ -6,7 +6,7 @@
         {
             <div class="list-group-item rounded-2 mb-1">
                 <h3>@block.Title</h3>
-                <hr/>
+                <hr />
                 @if (block.B64Img != null)
                 {
                     <img class="" src="data:image/jpeg;base64, @block.B64Img" alt="picture" style="height: 6rem;" />
@@ -14,11 +14,14 @@
                 <p>@block.Text</p>
             </div>
         }
-    <a class="ms-auto btn btn-blue" asp-controller="Thoughts" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <div>
+        <a class="ms-auto btn btn-blue" asp-controller="Thoughts" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="ms-auto btn btn-danger" asp-controller="Thoughts" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    </div>
 </div>
 <div class="list-group p-2 mt-2">
     <h5 class="">Comments</h5>
-    <hr/>
+    <hr />
     @if (Model.Comments != null)
         @foreach (Comment comment in Model.Comments)
         {
