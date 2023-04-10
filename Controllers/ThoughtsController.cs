@@ -15,11 +15,27 @@ namespace Thoujour.Controllers
         }
 
         // GET: Thoughts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return _context.Thoughts != null ?
-                        View(await _context.Thoughts.ToListAsync()) :
-                        Problem("Entity set 'ThoughtsDb.Thought'  is null.");
+            if (_context.Thoughts != null)
+            {
+                List<Thought> thoughts = await _context.Thoughts.ToListAsync();
+
+                //thoughts.Clear();
+
+                if (thoughts.Count > 0)
+                {
+                    id = id ?? thoughts.FirstOrDefault()?.Id;
+                    (thoughts.Find(t => t.Id == id) ?? new Thought()).Blocks = await _context.Blocks.Where(b => b.ThoughtId == id).ToListAsync();
+                    (thoughts.Find(t => t.Id == id) ?? new Thought()).Comments = await _context.Comments.Where(b => b.ThoughtId == id).ToListAsync();
+                }
+
+                ViewData["Id"] = id;
+
+                return View(thoughts);
+            }
+            else
+                return Problem("Entity set 'ThoughtsDb.Thought'  is null.");
         }
 
         // GET: Thoughts/Details/5
@@ -51,13 +67,13 @@ namespace Thoujour.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Thought thought)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description")] Thought thought)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(thought);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BlocksEdit), thought);
             }
             return View(thought);
         }
@@ -83,7 +99,58 @@ namespace Thoujour.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Thought thought)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Thought thought)
+        {
+            if (id != thought.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(thought);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ThoughtExists(thought.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(BlocksEdit), thought);
+            }
+            return View(thought);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BlocksEdit(int? id)
+        {
+            if (id == null || _context.Thoughts == null)
+            {
+                return NotFound();
+            }
+
+            var thought = await _context.Thoughts.FindAsync(id);
+            if (thought == null)
+            {
+                return NotFound();
+            }
+
+            thought.Blocks = await _context.Blocks.Where(b => b.ThoughtId == id).ToListAsync();
+
+            return View(thought);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BlocksEdit(int id, [Bind("Id,Blocks")] Thought thought)
         {
             if (id != thought.Id)
             {
@@ -111,6 +178,30 @@ namespace Thoujour.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(thought);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBlock([Bind("Id,ThoughtId,Title,Text")] Block block, IFormFile b64Img)
+        {
+            if (block == null)
+            {
+                return NotFound();
+            }
+
+            if (b64Img != null)
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await b64Img.CopyToAsync(ms);
+                    block.B64Img = Convert.ToBase64String(ms.ToArray());
+                }
+
+            if (await _context.Blocks.AnyAsync(b => b.Id == block.Id))
+                _context.Update(block);
+            else
+                _context.Add(block);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
         }
 
         // GET: Thoughts/Delete/5
@@ -148,6 +239,24 @@ namespace Thoujour.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteBlock(int id)
+        {
+            if (_context.Blocks == null)
+            {
+                return Problem("Entity set 'ThoughtsDb.Blocks'  is null.");
+            }
+            var block = await _context.Blocks.FindAsync(id);
+            if (block != null)
+            {
+                _context.Blocks.Remove(block);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
         }
 
         private bool ThoughtExists(int id)

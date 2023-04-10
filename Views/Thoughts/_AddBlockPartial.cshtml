@@ -1,0 +1,53 @@
+﻿@model Thoujour.Models.Block
+
+@if (!(Model.Id > 0))
+{
+    <hr />
+    <h4 class="ms-2">Add Block</h4>
+}
+
+<div class="row @(Model.Id > 0 ? "" : "m-1 p-2 border rounded-2 bg-white")">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="ThoughtId" />
+        <div class="col-6">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label asp-for="B64Img" class="form-label">Picture</label>
+            <input type="file" asp-for="B64Img" accept="image/jpeg" class="form-control" />
+            <span asp-validation-for="B64Img" class="text-danger"></span>
+        </div>
+        @if (Model.B64Img != null)
+        {
+            <div class="col-2">
+                <img class="img-thumbnail" src="data:image/jpeg;base64, @Model.B64Img" alt="picture" />
+            </div>
+        }
+        <div class="col-12">
+            <label asp-for="Text" class="form-label"></label>
+            <textarea asp-for="Text" class="form-control"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
+        <div class="mt-2">
+            @if (Model.Id > 0)
+            {
+                <input type="submit" asp-action="AddBlock" value="Save changes" class="btn btn-primary" />
+                <input type="submit" asp-action="DeleteBlock" value="Delete" class="btn btn-danger" />
+            }
+            else
+            {
+                <input type="submit" asp-action="AddBlock" value="Add block" class="btn btn-primary" />
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

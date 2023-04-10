@@ -1,36 +1,28 @@
 ﻿@model IEnumerable<Thoujour.Models.Thought>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Thoughts";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int? id = (int?)ViewData["Id"];
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="d-flex flex-column align-items-stretch p-2 flex-shrink-0 bg-white rounded-end border border-2" style="width: 300px;">
+    <div class="mb-2">
+        <a href="/" class="d-inline align-items-center p-3 flex-shrink-0 link-dark text-decoration-none">
+            <span class="fs-2 fw-semibold">Thoughts</span>
+        </a>
+        <a asp-action="Create" class="d-inline align-items-center btn btn-blue p-1 ms-3 fs-4 fw-semibold">Create</a>
+    </div>
+    <div class="list-group list-group-flush overflow-auto border-bottom scrollarea">
+        @foreach (Thought thought in Model)
+        {
+            <a href="/Thoughts/Index/@thought.Id" class="list-group-item list-group-item-action py-3 lh-tight @(thought.Id == id ? "active" : "")" @(thought.Id == id ? "aria-current=true" : "")>
+                <div><strong class="mb-1">@thought.Title</strong></div>
+                <div><small class="mb-1">@thought.Description</small></div>
+            </a>
+        }
+    </div>
+</div>
+<div class="flex-grow-1 overflow-auto border border-2 rounded-start p-2">
+    @await Html.PartialAsync("_ThoughtPartial", Model.Where(t => t.Id == id).FirstOrDefault())
+</div>

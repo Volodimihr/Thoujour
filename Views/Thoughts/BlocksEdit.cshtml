@@ -1,0 +1,34 @@
+﻿@model Thoujour.Models.Thought
+
+@{
+    ViewData["Title"] = "BlocksEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="overflow-auto overflow-x-hidden">
+    <h1>BlocksEdit</h1>
+
+    <h4>Thought</h4>
+
+    <hr />
+    <div class="list-group">
+        @if (Model.Blocks != null)
+            @foreach (Block block in Model.Blocks)
+            {
+                <div class="list-group-item rounded-2 mb-2">
+                    @await Html.PartialAsync("_AddBlockPartial", block)
+                </div>
+            }
+    </div>
+    <div class="">
+        @await Html.PartialAsync("_AddBlockPartial", new Block(){ ThoughtId = Model.Id })
+    </div>
+    <div>
+        <a asp-action="Index">Back to Main</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

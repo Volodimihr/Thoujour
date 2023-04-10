@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -11,8 +11,32 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  background-color: white;
 }
 
 body {
   margin-bottom: 60px;
+  background-color: aliceblue;
+}
+
+main {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 86vh;
+    max-height: 86vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden !important;
+}
+
+.btn-blue {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-blue:hover{
+    background-color: lightskyblue;
 }
