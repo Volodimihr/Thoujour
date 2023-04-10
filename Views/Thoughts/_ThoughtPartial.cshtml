@@ -8,7 +8,7 @@
                 <h3>@block.Title</h3>
                 @if (block.B64Img != null)
                 {
-                    <img src="@block.B64Img" alt="picture" />
+                    <img class="img-fluid" src="data:image/jpeg;base64, @block.B64Img" alt="picture" />
                 }
                 <p>@block.Text</p>
             </div>

@@ -180,6 +180,30 @@ namespace Thoujour.Controllers
             return View(thought);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddBlock([Bind("Id,ThoughtId,Title,Text")] Block block, IFormFile b64Img)
+        {
+            if (block == null)
+            {
+                return NotFound();
+            }
+
+            if (b64Img != null)
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    await b64Img.CopyToAsync(ms);
+                    block.B64Img = Convert.ToBase64String(ms.ToArray());
+                }
+
+            if (await _context.Blocks.AnyAsync(b => b.Id == block.Id))
+                _context.Update(block);
+            else
+                _context.Add(block);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
+        }
+
         // GET: Thoughts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
