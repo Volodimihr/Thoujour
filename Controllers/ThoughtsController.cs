@@ -241,6 +241,24 @@ namespace Thoujour.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteBlock(int id)
+        {
+            if (_context.Blocks == null)
+            {
+                return Problem("Entity set 'ThoughtsDb.Blocks'  is null.");
+            }
+            var block = await _context.Blocks.FindAsync(id);
+            if (block != null)
+            {
+                _context.Blocks.Remove(block);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
+        }
+
         private bool ThoughtExists(int id)
         {
             return (_context.Thoughts?.Any(e => e.Id == id)).GetValueOrDefault();
