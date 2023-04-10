@@ -73,7 +73,7 @@ namespace Thoujour.Controllers
             {
                 _context.Add(thought);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BlocksEdit), thought);
             }
             return View(thought);
         }

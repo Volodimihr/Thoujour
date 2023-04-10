@@ -11,16 +11,19 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  background-color: white;
 }
 
 body {
   margin-bottom: 60px;
+  background-color: lightsteelblue;
 }
 
 main {
     display: flex;
     flex-wrap: nowrap;
-    max-height: 85vh;
+    height: 86vh;
+    max-height: 86vh;
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -32,4 +35,8 @@ main {
 .btn-blue {
     background-color: #0d6efd;
     color: white;
+}
+
+.btn-blue:hover{
+    background-color: lightskyblue;
 }

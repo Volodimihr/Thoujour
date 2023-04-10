@@ -4,11 +4,12 @@
     @if (Model.Blocks != null)
         @foreach (Block block in Model.Blocks)
         {
-            <div class="list-group-item rounded-2 mb-2">
+            <div class="list-group-item rounded-2 mb-1">
                 <h3>@block.Title</h3>
+                <hr/>
                 @if (block.B64Img != null)
                 {
-                    <img class="img-fluid" src="data:image/jpeg;base64, @block.B64Img" alt="picture" />
+                    <img class="" src="data:image/jpeg;base64, @block.B64Img" alt="picture" style="height: 6rem;" />
                 }
                 <p>@block.Text</p>
             </div>
@@ -16,7 +17,8 @@
     <a class="ms-auto btn btn-blue" asp-controller="Thoughts" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </div>
 <div class="list-group p-2 mt-2">
-    <h5 class="p-2">Comments</h5>
+    <h5 class="">Comments</h5>
+    <hr/>
     @if (Model.Comments != null)
         @foreach (Comment comment in Model.Comments)
         {

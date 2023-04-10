@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<Thoujour.Models.Thought>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Thoughts";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int? id = (int?)ViewData["Id"];
 }
 
 <div class="d-flex flex-column align-items-stretch p-2 flex-shrink-0 bg-white rounded-end border border-2" style="width: 300px;">
-    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-        <span class="fs-2 fw-semibold">Thoughts</span>
-    </a>
+    <div class="mb-2">
+        <a href="/" class="d-inline align-items-center p-3 flex-shrink-0 link-dark text-decoration-none">
+            <span class="fs-2 fw-semibold">Thoughts</span>
+        </a>
+        <a asp-action="Create" class="d-inline align-items-center btn btn-blue p-1 ms-3 fs-4 fw-semibold">Create</a>
+    </div>
     <div class="list-group list-group-flush overflow-auto border-bottom scrollarea">
         @foreach (Thought thought in Model)
         {
