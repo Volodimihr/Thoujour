@@ -3,6 +3,7 @@
 <form class="row" asp-action="AddComment" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ThoughtId" />
+    <input type="hidden" asp-for="Date" value="@(DateTime.Now.ToShortDateString())" />
     <div class="col-6">
         <label asp-for="UserName" class="control-label"></label>
         <input asp-for="UserName" class="form-control" />
@@ -13,7 +14,7 @@
         <textarea asp-for="Text" class="form-control"></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
-    <div class="col-2">
+    <div class="col-2 mt-2">
         <input type="submit" value="Comment" class="btn btn-primary" />
     </div>
 </form>

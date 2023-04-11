@@ -23,6 +23,7 @@
     <h5 class="">Comments</h5>
     <hr />
     @await Html.PartialAsync("_AddCommentPartial", new Comment(){ ThoughtId = Model.Id })
+    <hr />
     @if (Model.Comments != null)
         @foreach (Comment comment in Model.Comments)
         {

@@ -35,12 +35,12 @@
         <div class="mt-2">
             @if (Model.Id > 0)
             {
-                <input type="submit" asp-action="AddBlock" value="Save changes" class="btn btn-primary" />
+                <input type="submit" asp-action="AddEditBlock" value="Save changes" class="btn btn-primary" />
                 <input type="submit" asp-action="DeleteBlock" value="Delete" class="btn btn-danger" />
             }
             else
             {
-                <input type="submit" asp-action="AddBlock" value="Add block" class="btn btn-primary" />
+                <input type="submit" asp-action="AddEditBlock" value="Add block" class="btn btn-primary" />
             }
         </div>
     </form>

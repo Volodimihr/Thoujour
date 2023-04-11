@@ -15,12 +15,12 @@
             @foreach (Block block in Model.Blocks)
             {
                 <div class="list-group-item rounded-2 mb-2">
-                    @await Html.PartialAsync("_AddBlockPartial", block)
+                    @await Html.PartialAsync("_AddEditBlockPartial", block)
                 </div>
             }
     </div>
     <div class="">
-        @await Html.PartialAsync("_AddBlockPartial", new Block(){ ThoughtId = Model.Id })
+        @await Html.PartialAsync("_AddEditBlockPartial", new Block(){ ThoughtId = Model.Id })
     </div>
     <div>
         <a asp-action="Index">Back to Main</a>

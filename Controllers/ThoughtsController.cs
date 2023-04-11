@@ -181,7 +181,7 @@ namespace Thoujour.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBlock([Bind("Id,ThoughtId,Title,Text")] Block block, IFormFile b64Img)
+        public async Task<IActionResult> AddEditBlock([Bind("Id,ThoughtId,Title,Text")] Block block, IFormFile b64Img)
         {
             if (block == null)
             {
@@ -195,19 +195,30 @@ namespace Thoujour.Controllers
                     block.B64Img = Convert.ToBase64String(ms.ToArray());
                 }
 
-            if (await _context.Blocks.AnyAsync(b => b.Id == block.Id))
-                _context.Update(block);
-            else
-                _context.Add(block);
+            try
+            {
+                if (await _context.Blocks.AnyAsync(b => b.Id == block.Id))
+                    _context.Update(block);
+                else
+                    _context.Add(block);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(int id, [Bind("Id,ThoughtId,UserName,Text")] Comment comment)
+        public async Task<IActionResult> AddComment([Bind("Id,ThoughtId,Date,UserName,Text")] Comment comment)
         {
-            return RedirectToAction(nameof(Index), id);
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index), await _context.Thoughts.FindAsync(comment.ThoughtId));
         }
 
         // GET: Thoughts/Delete/5
@@ -256,6 +267,7 @@ namespace Thoujour.Controllers
                 return Problem("Entity set 'ThoughtsDb.Blocks'  is null.");
             }
             var block = await _context.Blocks.FindAsync(id);
+
             if (block != null)
             {
                 _context.Blocks.Remove(block);
