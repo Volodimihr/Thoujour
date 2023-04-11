@@ -204,6 +204,12 @@ namespace Thoujour.Controllers
             return RedirectToAction(nameof(BlocksEdit), await _context.Thoughts.FindAsync(block.ThoughtId));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddComment(int id, [Bind("Id,ThoughtId,UserName,Text")] Comment comment)
+        {
+            return RedirectToAction(nameof(Index), id);
+        }
+
         // GET: Thoughts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
