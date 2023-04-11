@@ -11,7 +11,7 @@ namespace Thoujour.Models
         public int ThoughtId { get; set; }
         public string? UserName { get; set; }
         [Required]
-        public string Text { get; set;}
+        public string Text { get; set; }
         [Required]
         public DateTime Date { get; set; }
 
