@@ -5,25 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int? id = (int?)ViewData["Id"];
 }
-
-<div class="d-flex flex-column align-items-stretch p-2 flex-shrink-0 bg-white rounded-end border border-2" style="width: 300px;">
-    <div class="mb-2">
-        <a href="/" class="d-inline align-items-center p-3 flex-shrink-0 link-dark text-decoration-none">
-            <span class="fs-2 fw-semibold">Thoughts</span>
-        </a>
-        <a asp-action="Create" class="d-inline align-items-center btn btn-blue p-1 ms-3 fs-4 fw-semibold">Create</a>
-    </div>
-    <hr/>
-    <div class="list-group list-group-flush overflow-auto border-bottom scrollarea">
-        @foreach (Thought thought in Model)
-        {
-            <a href="/Thoughts/Index/@thought.Id" class="list-group-item list-group-item-action py-3 lh-tight @(thought.Id == id ? "active" : "")" @(thought.Id == id ? "aria-current=true" : "")>
-                <div><strong class="mb-1">@thought.Title</strong></div>
-                <div><small class="mb-1">@thought.Description</small></div>
+<div class="d-flex flex-column flex-sm-row flex-fill">
+    <div class="d-flex flex-column col-sm-4 p-2 flex-shrink-0 bg-white rounded-2 border border-2">
+        <div class="mb-2">
+            <a href="/" class="d-inline align-items-center p-3 flex-shrink-0 link-dark text-decoration-none">
+                <span class="fs-2 fw-semibold">Thoughts</span>
             </a>
-        }
+            <a asp-action="Create" class="d-inline align-items-center btn btn-blue p-1 ms-3 fs-4 fw-semibold">Create</a>
+        </div>
+        <hr />
+        <div class="list-group overflow-auto border-bottom scrollarea">
+            @foreach (Thought thought in Model)
+            {
+                <a href="/Thoughts/Index/@thought.Id" class="list-group-item list-group-item-action py-3 lh-tight @(thought.Id == id ? "active" : "")" @(thought.Id == id ? "aria-current=true" : "")>
+                    <div><strong class="mb-1">@thought.Title</strong></div>
+                    <div><small class="mb-1">@thought.Description</small></div>
+                </a>
+            }
+        </div>
     </div>
-</div>
-<div class="flex-grow-1 overflow-auto border border-2 rounded-start p-2">
-    @await Html.PartialAsync("_ThoughtPartial", Model.Where(t => t.Id == id).FirstOrDefault())
+    <div class="flex-fill overflow-auto border border-2 rounded-2 p-2">
+        @await Html.PartialAsync("_ThoughtPartial", Model.Where(t => t.Id == id).FirstOrDefault())
+    </div>
 </div>

@@ -26,8 +26,13 @@ namespace Thoujour.Controllers
                 if (thoughts.Count > 0)
                 {
                     id = id ?? thoughts.FirstOrDefault()?.Id;
-                    (thoughts.Find(t => t.Id == id) ?? new Thought()).Blocks = await _context.Blocks.Where(b => b.ThoughtId == id).ToListAsync();
-                    (thoughts.Find(t => t.Id == id) ?? new Thought()).Comments = await _context.Comments.Where(b => b.ThoughtId == id).ToListAsync();
+                    (thoughts.Find(t => t.Id == id) ?? new Thought())
+                        .Blocks = await _context.Blocks.Where(b => b.ThoughtId == id)
+                        .ToListAsync();
+
+                    (thoughts.Find(t => t.Id == id) ?? new Thought())
+                        .Comments = await _context.Comments.Where(b => b.ThoughtId == id)
+                        .ToListAsync();
                 }
 
                 ViewData["Id"] = id;
