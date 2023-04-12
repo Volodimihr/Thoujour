@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Thoujour.Models;
 
 public class ThoughtsDb : DbContext
 {
