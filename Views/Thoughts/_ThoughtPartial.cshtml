@@ -1,5 +1,6 @@
 ﻿@model Thoujour.Models.Thought
 
+<h1>@Model.Title</h1>
 <div class="list-group">
     @if (Model.Blocks != null)
         @foreach (Block block in Model.Blocks)
@@ -30,7 +31,10 @@
             <div class="list-group-item mb-2 p-2 rounded-4">
                 <h6>@(comment.UserName ?? "")</h6>
                 <p>@comment.Text</p>
-                <small>@comment.Date.ToLongDateString()</small>
+                <div class="d-flex justify-content-end">
+                    <small>@comment.Date.ToShortTimeString()</small>
+                    <small class="ms-2">@comment.Date.ToShortDateString()</small>
+                </div>
             </div>
         }
 </div>

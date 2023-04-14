@@ -3,7 +3,7 @@
 <form class="row" asp-action="AddComment" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ThoughtId" />
-    <input type="hidden" asp-for="Date" value="@(DateTime.Now.ToShortDateString())" />
+    <input type="hidden" asp-for="Date" value="@(DateTime.Now)" />
     <div class="col-6">
         <label asp-for="UserName" class="control-label"></label>
         <input asp-for="UserName" class="form-control" />
